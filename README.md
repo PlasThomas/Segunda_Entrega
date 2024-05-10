@@ -1,6 +1,7 @@
 # Segunda_Entrega
-    programa              encargado         terminado
-BNF sin recursividad -------Jesus -----------no
-BNF con recursividad -------Tomas -----------no
-Analizador desendente ------      -----------no
-Analizador acendente -------Ambos -----------no
+| Programa  | Encargado | Terminado |
+| ------------- | ------------- | ------------- |
+| BNF sin recursividad |Jesus|no|
+| BNF con recursividad |Tomas|no|
+| Analizador desendente |Jesus y Tomas|no|
+| Analizador ascendente |Jesus, Tomas e Isaac|no|
