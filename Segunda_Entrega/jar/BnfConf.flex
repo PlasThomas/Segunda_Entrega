@@ -1,6 +1,6 @@
-package BnfSin;
+package Programas;
 import java.io.*;
-import static BnfSin.BnfsTokens.*;
+import static Programas.BnfsTokens.*;
 %%
 %class Lexico
 %type BnfsTokens
