@@ -4,43 +4,60 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class BnfRec {
+    private FileReader archivo;
     private ArrayList<String> pilaError = new ArrayList<String>();
+    private boolean fintext = false;
+    private int primerToken = 0;
     private Lexico lexico;
     private BnfsTokens token;
-    public static void main(String[] args) throws IOException {
-        Main app = new Main();
-        Reader rd = new BufferedReader(new FileReader("fuente.txt"));
-        app.lexico = new Lexico(rd);
-        do {
-            app.S();
-            if(app.pilaError.isEmpty())
-                System.out.println("Cadena valida");
-            else{
-                System.out.println("Cadena invalida");
-                for(int i = 0; i < app.pilaError.size();i++)
-                    System.out.println(app.pilaError.get(i));
-                System.out.println("\n\n");
-            }
-            app.pilaError.clear();
-        }while(app.token != null);
-/*
- E-> T or E | T
- T-> F and T | F
- F-> not F | true | false | ( E )
+    private ArrayList<String> out = new ArrayList<String>();
 
- */
+    public void setArchivo(String file) throws FileNotFoundException {
+        archivo = new FileReader(file);
     }
+    public ArrayList<String> task() throws IOException {
+        out.clear();
+        Reader rd = new BufferedReader(archivo);
+        lexico = new Lexico(rd);
+        do{
+            S();
+            primerToken = 0;
+            if(fintext)
+                out.add("Fin del Archivo");
+            else if(pilaError.isEmpty())
+                out.add("Cadena valida \n");
+            else {
+                out.add("Cadena invalida");
+                out.addAll(pilaError);
+                out.add("\n");
+            }
+            pilaError.clear();
+        }while(token != null);
+        return out;
+    }
+    /*
+     E-> T or E | T
+     T-> F and T | F
+     F-> not F | true | false | ( E )
+     */
     public void S() throws IOException {
-        System.out.println("S");
+        out.add("S");
+        if(primerToken == 0){
+            token = lexico.yylex();
+            if(token == null) {
+                fintext = true;
+                return;
+            }
+        }
         E();
         if(token == BnfsTokens.PUNTOYCOMA){
-            System.out.println("Fin de cadena");
+            out.add("Fin de cadena");
         }else{
             pilaError.add("Token esperado: ';'");
         }
     }
     public void E() throws IOException{
-        System.out.println("E");
+        out.add("E");
         T();
         if(token == BnfsTokens.OR)
             E();
@@ -48,7 +65,7 @@ public class BnfRec {
             return;
     }
     public void T() throws IOException{
-        System.out.println("T");
+        out.add("T");
         F();
         if(token == BnfsTokens.AND)
             T();
@@ -56,8 +73,11 @@ public class BnfRec {
             return;
     }
     public void F() throws IOException {
-        System.out.println("F");
-        token = lexico.yylex();
+        out.add("F");
+        if(primerToken == 0)
+            primerToken = 1;
+        else
+            token = lexico.yylex();
         if (token == BnfsTokens.NOT) {
             F();
         } else if (token == BnfsTokens.FALSE || token == BnfsTokens.TRUE) {
