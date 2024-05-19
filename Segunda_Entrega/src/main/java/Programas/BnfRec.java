@@ -15,6 +15,7 @@ public class BnfRec {
     public void setArchivo(String file) throws FileNotFoundException {
         archivo = new FileReader(file);
     }
+
     public ArrayList<String> task() throws IOException {
         out.clear();
         Reader rd = new BufferedReader(archivo);
@@ -35,6 +36,7 @@ public class BnfRec {
         }while(token != null);
         return out;
     }
+
     /*
      E-> T or E | T
      T-> F and T | F
