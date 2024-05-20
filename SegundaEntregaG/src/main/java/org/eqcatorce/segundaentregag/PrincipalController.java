@@ -1,18 +1,42 @@
 package org.eqcatorce.segundaentregag;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.eqcatorce.segundaentregag.programas.BnfRec;
 
 import javax.swing.*;
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class PrincipalController {
+
+    public static class Item {
+        private final SimpleStringProperty token;
+        private final SimpleStringProperty expresion;
+        private final SimpleStringProperty estado;
+
+        public Item(String token, String expresion, String estado) {
+            this.token = new SimpleStringProperty(token);
+            this.expresion = new SimpleStringProperty(expresion);
+            this.estado = new SimpleStringProperty(estado);
+        }
+
+        public String getToken() {
+            return token.get();
+        }
+
+        public String getExpresion() {
+            return expresion.get();
+        }
+
+        public String getEstado() {
+            return estado.get();
+        }
+    }
     @FXML
     private Label titleText;
     @FXML
@@ -20,7 +44,7 @@ public class PrincipalController {
     @FXML
     private Button selectFont;
     @FXML
-    private TableView<String> tableView;
+    private TableView<Item> tableView;
     @FXML
     private Label selectedPath;
     @FXML
@@ -56,26 +80,60 @@ public class PrincipalController {
     }
 
     @FXML
+    private  void setTitleText() {
+        titleText.setText("Segunda entrega: [" + selectProgram.getSelectionModel().getSelectedItem() + "]");
+    }
+
+    @FXML
     private void startPrograms(){
         String selectedProgram = selectProgram.getSelectionModel().getSelectedItem();
-
-        if(path != null && selectedProgram != null) {
-            if (selectedProgram.equals("BNF Recursivo")) {
-                System.out.println("BNF Recursivo");
-            } else if (selectedProgram.equals("BNF No Recursivo")) {
-                System.out.println("BNF No Recursivo");
-            } else if (selectedProgram.equals("Analizador Descendente")) {
-                System.out.println("Analizador Descendente");
-            } else if (selectedProgram.equals("Analizador Ascendente")) {
-                System.out.println("Analizador Ascendente");
+        try{
+            if(path != null && selectedProgram != null) {
+                if (selectedProgram.equals("BNF Recursivo")) {
+                    BnfRec bnfr = new BnfRec();
+                    bnfr.setArchivo(path);
+                    setTableView(bnfr.task());
+                } else if (selectedProgram.equals("BNF No Recursivo")) {
+                    System.out.println("BNF No Recursivo");
+                } else if (selectedProgram.equals("Analizador Descendente")) {
+                    System.out.println("Analizador Descendente");
+                } else if (selectedProgram.equals("Analizador Ascendente")) {
+                    System.out.println("Analizador Ascendente");
+                }
             }
-        }
-        else {
-            JOptionPane.showMessageDialog(null, "Por favor selecciona una fuente y un programa", "Sope", JOptionPane.WARNING_MESSAGE);
+            else {
+                JOptionPane.showMessageDialog(null, "Por favor selecciona una fuente y un programa", "Sope", JOptionPane.WARNING_MESSAGE);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
-    private void setTableView(){
 
+    private void setTableView(ArrayList<String> piller){
+        // Crear la columna "Token"
+        TableColumn<Item, String> tokenColumn = new TableColumn<>("Token");
+        tokenColumn.setCellValueFactory(cellData -> cellData.getValue().token);
+
+        // Crear la columna "Expresión"
+        TableColumn<Item, String> expresionColumn = new TableColumn<>("Expresión");
+        expresionColumn.setCellValueFactory(cellData -> cellData.getValue().expresion);
+
+        // Crear la columna "Estado"
+        TableColumn<Item, String> estadoColumn = new TableColumn<>("Estado");
+        estadoColumn.setCellValueFactory(cellData -> cellData.getValue().estado);
+
+        // Añadir las columnas a la tabla
+        tableView.getColumns().clear();
+        tableView.getColumns().add(tokenColumn);
+        tableView.getColumns().add(expresionColumn);
+        tableView.getColumns().add(estadoColumn);
+
+        tableView.getItems().clear();
+        for (String expresion : piller) {
+            String token = ""; // Lógica para obtener el token
+            String estado = ""; // Lógica para determinar si es aceptado o no
+            tableView.getItems().add(new Item(token, expresion, estado));
+        }
     }
 }
