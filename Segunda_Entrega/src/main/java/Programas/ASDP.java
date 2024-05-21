@@ -24,6 +24,7 @@ public class ASDP {
             else{
                 salida.add("Cadena invalida");
                 salida.addAll(errores);
+                salida.add("\n");
                 simbolos.clear();
                 while(entrada.peek() != ';')
                     entrada.poll();
@@ -43,7 +44,7 @@ public class ASDP {
             errores.push("caracter invalido");
         }
         if(simbolos.peek() == ';' && entrada.peek() == ';' ) {
-            System.out.println("fin de cadena");
+            salida.add("fin de cadena");
             entrada.poll();
             simbolos.pop();
         }
@@ -135,7 +136,7 @@ public class ASDP {
                     }
                 }
             }else{
-                System.out.println("El archivo no está listo");
+                errores.add("El archivo no está listo");
             }
         }catch(IOException e){
             System.out.println("Error: " + e.getMessage());

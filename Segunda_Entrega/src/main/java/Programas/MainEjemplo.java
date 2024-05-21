@@ -15,6 +15,7 @@ public class MainEjemplo {
         ASDP asdp = new ASDP();
         asdp.setArchivo("src/main/java/Programas/fuente.txt");
         out = asdp.task();
+
         for (String s : out) System.out.println(s);
     }
 }

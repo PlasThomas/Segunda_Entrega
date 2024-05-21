@@ -1,2 +1,4 @@
+abcd;
+bd;
 true and false;
 or;
