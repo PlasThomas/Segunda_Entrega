@@ -1,0 +1,111 @@
+package org.eqcatorce.segundaentregag.programas;
+
+import java.io.*;
+import java.util.ArrayList;
+
+public class BnfSinRec {
+    private FileReader archivo;
+    private ArrayList<String> pilaError = new ArrayList<String>();
+    private boolean fintext = false;
+    private int primerToken = 0;
+    private Lexico lexico;
+    private BnfsTokens token;
+    private ArrayList<String> out = new ArrayList<String>();
+
+    public void setArchivo(String file) throws FileNotFoundException{
+        archivo = new FileReader(file);
+    }
+    public ArrayList<String> task() throws IOException {
+        out.clear();
+        Reader rd= new BufferedReader(archivo);
+        lexico = new Lexico(rd);
+        do{
+            S();
+            primerToken=0;
+            if (fintext)
+                out.add("Fin del archivo");
+            else if (pilaError.isEmpty())
+                out.add("Cadena valida \n");
+            else {
+                out.add("Cadena invalida");
+                out.addAll(pilaError);
+                out.add("\n");
+            }
+            pilaError.clear();
+        }while (token!= null);
+        return out;
+    }
+    /*
+     * S:=E;
+     * E:= T EP  Ep:= or T Ep | white
+     * T:= F Tp  Tp:= and F Tp | white
+     * F:= not E
+     * F:= true | false | (E)
+     * */
+    public void S() throws IOException{
+        out.add("S");
+        if (primerToken==0){
+            token= lexico.yylex();
+            if (token== null){
+                fintext= true;
+                return;
+            }
+        }
+        E();
+        if (token== BnfsTokens.PUNTOYCOMA){
+            out.add("Fin de cadena");
+        }else{
+            pilaError.add("Caracter esperado ';'");
+        }
+    }
+    public void E() throws IOException{
+        out.add("E");
+        T();
+        Ep();
+    }
+    public  void Ep() throws IOException{
+        out.add("Ep");
+        if (token== BnfsTokens.OR){
+            token = lexico.yylex();
+            T();
+            Ep();
+        }else {
+            return;
+        }
+    }
+    public  void T()throws IOException{
+        out.add("T");
+        F();
+        Tp();
+    }
+    public void Tp()throws  IOException{
+        out.add("Tp");
+        if (token== BnfsTokens.AND){
+            F();
+            Tp();
+        }else {
+            return;
+        }
+    }
+    public void F() throws IOException {
+        out.add("F");
+        if(primerToken == 0)
+            primerToken = 1;
+        else
+            token = lexico.yylex();
+        if (token == BnfsTokens.NOT) {
+            F();
+        } else if (token == BnfsTokens.FALSE || token == BnfsTokens.TRUE) {
+            token = lexico.yylex();
+            return;
+        } else if (token == BnfsTokens.APARENTESIS) {
+            E();
+            if (token == BnfsTokens.CPARENTESIS)
+                token = lexico.yylex();
+            else
+                pilaError.add("Falta token ')'");
+        } else {
+            pilaError.add("Caracter no esperado");
+        }
+    }
+}

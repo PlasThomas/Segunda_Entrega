@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.eqcatorce.segundaentregag.programas.BnfRec;
+import org.eqcatorce.segundaentregag.programas.BnfSinRec;
 
 import javax.swing.*;
 import java.io.File;
@@ -94,6 +95,9 @@ public class PrincipalController {
                     bnfr.setArchivo(path);
                     setTableView(bnfr.task());
                 } else if (selectedProgram.equals("BNF No Recursivo")) {
+                    BnfSinRec bnfsr = new BnfSinRec();
+                    bnfsr.setArchivo(path);
+                    setTableView(bnfsr.task());
                     System.out.println("BNF No Recursivo");
                 } else if (selectedProgram.equals("Analizador Descendente")) {
                     System.out.println("Analizador Descendente");
