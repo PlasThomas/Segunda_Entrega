@@ -1,0 +1,6 @@
+var idid, i89 : boolean ;
+var idi11 : integer ;
+var x, y, y8, u777, o000,m000 : integer ;
+var x, y : integer ;
+var x, y : integer ;
+var x, y : integer ;

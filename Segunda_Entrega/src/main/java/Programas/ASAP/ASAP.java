@@ -3,27 +3,27 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class ASAP {
-    String archivo;
-    private ArrayList<String> salida = new ArrayList<String>();
+    private FileReader archivo;
+    private ArrayList<String> salida = new ArrayList<>();
 
-    /*public ArrayList<String> task() throws Exception {
+    public void setArchivo(String path) throws FileNotFoundException {
+        this.archivo = new FileReader(path);
+    }
+    public ArrayList<String> task(){
+        String renglon;
         try {
-            Reader reader = new FileReader(archivo);
-            LexicoASAP lexer = new LexicoASAP(reader);
-            parser parser = new parser(lexer);
-
-            parser.parse();
-
-            ArrayList<String> messages = parser.getMessages();
-            for (String message : messages) {
-                salida.add(message);
+            BufferedReader reader = new BufferedReader(archivo);
+            while((renglon = reader.readLine())!= null){
+                Reader buffer = new StringReader(renglon);
+                LexicoASAP scanner = new LexicoASAP(buffer);
+                parser par = new parser(scanner);
+                par.parse();
+                salida.addAll(par.getMessages());
+                par.clearMessage();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return salida;
-    }*/
-    public void setArchivo(String path){
-        this.archivo = path;
     }
 }
