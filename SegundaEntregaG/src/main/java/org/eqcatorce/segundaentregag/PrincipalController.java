@@ -5,13 +5,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.eqcatorce.segundaentregag.programas.ASAP.ASAP;
 import org.eqcatorce.segundaentregag.programas.ASDP;
 import org.eqcatorce.segundaentregag.programas.BnfRec;
 import org.eqcatorce.segundaentregag.programas.BnfSinRec;
 
 import javax.swing.*;
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class PrincipalController {
@@ -59,7 +59,7 @@ public class PrincipalController {
     public void initialize() {
         // Inicializar ComboBox con cuatro elementos
         selectProgram.setPromptText("Programa ...");
-        selectProgram.getItems().addAll("BNF Recursivo", "BNF No Recursivo", "Analizador Descendente", "Analizador Ascendente");
+        selectProgram.getItems().addAll("BNF Recursivo", "BNF No Recursivo", "Analizador Descendente", "Analizador Ascendente", "Creditos");
     }
 
     @FXML
@@ -104,7 +104,15 @@ public class PrincipalController {
                     asdp.setArchivo(path);
                     setTableView(asdp.task(), "Asdp");
                 } else if (selectedProgram.equals("Analizador Ascendente")) {
-                    setTableView(null, "Ascendente");
+                    ASAP asap = new ASAP();
+                    asap.setArchivo(path);
+                    setTableView(asap.task(), "Ascendente");
+                } else if (selectedProgram.equals("Creditos")){
+                    ArrayList<String> creditos = new ArrayList<>();
+                    creditos.add("De Ramón Pérez Isaac Abraham");
+                    creditos.add("García Muñoz Jesús");
+                    creditos.add("Plasencia Ramos José Manuel");
+                    setTableView(creditos, "Ascendente");
                 }
             }
             else {
@@ -151,7 +159,15 @@ public class PrincipalController {
             }
         }
         else if (type.equals("Ascendente")) {
+            TableColumn<Item, String> expresionColumn = new TableColumn<>("Expresión");
+            expresionColumn.setCellValueFactory(cellData -> cellData.getValue().expresion);
+            tableView.getColumns().clear();
+            tableView.getColumns().add(expresionColumn);
+            tableView.getItems().clear();
 
+            for (String expr : piller){
+                tableView.getItems().add(new Item("",expr,""));
+            }
         }
 
     }

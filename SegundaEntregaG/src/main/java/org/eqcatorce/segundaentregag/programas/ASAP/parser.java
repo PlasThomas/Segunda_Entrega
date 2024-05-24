@@ -6,11 +6,10 @@
 
 package org.eqcatorce.segundaentregag.programas.ASAP;
 
-import java_cup.runtime.*;
+import java_cup.runtime.Symbol;
 
-import java.util.*;
-
-import static Programas.ASAP.parser.addMessage;
+import java.util.ArrayList;
+import java.util.Stack;
 
 /** CUP v0.11a beta 20060608 generated parser.
   * @version Thu May 23 20:13:23 CST 2024
@@ -156,7 +155,7 @@ class CUP$parser$actions {
           case 6: // T ::= BOOLEAN 
             {
               Object RESULT =null;
-		 Programas.ASAP.parser.addMessage("Tipo: boolean");
+		 org.eqcatorce.segundaentregag.programas.ASAP.parser.addMessage("Tipo: boolean");
               CUP$parser$result = parser.getSymbolFactory().newSymbol("T",3, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -165,7 +164,7 @@ class CUP$parser$actions {
           case 5: // T ::= INTEGER 
             {
               Object RESULT =null;
-		 Programas.ASAP.parser.addMessage("Tipo: integer");
+              org.eqcatorce.segundaentregag.programas.ASAP.parser.addMessage("Tipo: integer");
               CUP$parser$result = parser.getSymbolFactory().newSymbol("T",3, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -174,7 +173,7 @@ class CUP$parser$actions {
           case 4: // V ::= ID 
             {
               Object RESULT =null;
-		 Programas.ASAP.parser.addMessage("Variable");
+              org.eqcatorce.segundaentregag.programas.ASAP.parser.addMessage("Variable");
               CUP$parser$result = parser.getSymbolFactory().newSymbol("V",2, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -183,7 +182,7 @@ class CUP$parser$actions {
           case 3: // V ::= ID COMA V 
             {
               Object RESULT =null;
-		 Programas.ASAP.parser.addMessage("Variable");
+              org.eqcatorce.segundaentregag.programas.ASAP.parser.addMessage("Variable");
               CUP$parser$result = parser.getSymbolFactory().newSymbol("V",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -192,7 +191,7 @@ class CUP$parser$actions {
           case 2: // D ::= VAR V DOSP T PYCOMA 
             {
               Object RESULT =null;
-		 Programas.ASAP.parser.addMessage("Declaracion encoantrada");
+              org.eqcatorce.segundaentregag.programas.ASAP.parser.addMessage("Declaracion encoantrada");
               CUP$parser$result = parser.getSymbolFactory().newSymbol("D",1, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -201,7 +200,7 @@ class CUP$parser$actions {
           case 1: // S ::= D 
             {
               Object RESULT =null;
-		 Programas.ASAP.parser.addMessage("Analisis completado\n");
+              org.eqcatorce.segundaentregag.programas.ASAP.parser.addMessage("Analisis completado\n");
               CUP$parser$result = parser.getSymbolFactory().newSymbol("S",0, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
