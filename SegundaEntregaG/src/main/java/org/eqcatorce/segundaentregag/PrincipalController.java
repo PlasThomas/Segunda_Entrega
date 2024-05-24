@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.eqcatorce.segundaentregag.programas.ASDP;
 import org.eqcatorce.segundaentregag.programas.BnfRec;
 import org.eqcatorce.segundaentregag.programas.BnfSinRec;
 
@@ -93,16 +94,17 @@ public class PrincipalController {
                 if (selectedProgram.equals("BNF Recursivo")) {
                     BnfRec bnfr = new BnfRec();
                     bnfr.setArchivo(path);
-                    setTableView(bnfr.task());
+                    setTableView(bnfr.task(), "Bnf");
                 } else if (selectedProgram.equals("BNF No Recursivo")) {
                     BnfSinRec bnfsr = new BnfSinRec();
                     bnfsr.setArchivo(path);
-                    setTableView(bnfsr.task());
-                    System.out.println("BNF No Recursivo");
-                } else if (selectedProgram.equals("Analizador Descendente")) {
-                    System.out.println("Analizador Descendente");
+                    setTableView(bnfsr.task(), "Bnf");
+                } else if (selectedProgram.equals("Analizador Descendente")){
+                    ASDP asdp = new ASDP();
+                    asdp.setArchivo(path);
+                    setTableView(asdp.task(), "Asdp");
                 } else if (selectedProgram.equals("Analizador Ascendente")) {
-                    System.out.println("Analizador Ascendente");
+                    setTableView(null, "Ascendente");
                 }
             }
             else {
@@ -114,31 +116,43 @@ public class PrincipalController {
     }
 
 
-    private void setTableView(ArrayList<String> piller){
-
-        // Crear la columna "Expresión"
-        TableColumn<Item, String> expresionColumn = new TableColumn<>("Expresión");
-        expresionColumn.setCellValueFactory(cellData -> cellData.getValue().expresion);
-
-        // Crear la columna "Estado"
-        TableColumn<Item, String> estadoColumn = new TableColumn<>("Estado");
-        estadoColumn.setCellValueFactory(cellData -> cellData.getValue().estado);
-
-        // Añadir las columnas a la tabla
+    private void setTableView(ArrayList<String> piller, String type){
         tableView.getColumns().clear();
-        tableView.getColumns().add(expresionColumn);
-        tableView.getColumns().add(estadoColumn);
 
-        tableView.getItems().clear();
-        for (String expresion : piller) {
-            String estado = "";
-            if (expresion.equals("Cadena invalida") || expresion.equals("Caracter no esperado") || expresion.equals("Token esperado: ';'")){
-                estado = expresion;
-                expresion = "-";
+        if (type.equals("Bnf") || type.equals("Asdp")){
+            // Crear la columna "Expresión"
+            TableColumn<Item, String> expresionColumn = new TableColumn<>("Expresión");
+            expresionColumn.setCellValueFactory(cellData -> cellData.getValue().expresion);
+
+            // Crear la columna "Estado"
+            TableColumn<Item, String> estadoColumn = new TableColumn<>("Estado");
+            estadoColumn.setCellValueFactory(cellData -> cellData.getValue().estado);
+
+            // Añadir las columnas a la tabla
+            tableView.getColumns().clear();
+            tableView.getColumns().add(expresionColumn);
+            tableView.getColumns().add(estadoColumn);
+
+            tableView.getItems().clear();
+
+            for (String expr: piller){
+                String estado = "";
+
+                if (expr.equals("Cadena invalida") || expr.equals("Caracter no esperado") || expr.equals("Token esperado: ';'") || expr.equals("Caracter esperado ';'")
+                || expr.equals("Fin de cadena") || expr.equals("Cadena valida") || expr.equals("Fin del Archivo")){
+                    estado = expr;
+                    expr = "" + (char) 903;
+                }
+                else{
+                    estado = "" + (char) 903;
+                }
+
+                tableView.getItems().add(new Item("", expr, estado));
             }
-            else estado = "aceptado";
-
-            tableView.getItems().add(new Item("", expresion, estado));
         }
+        else if (type.equals("Ascendente")) {
+
+        }
+
     }
 }

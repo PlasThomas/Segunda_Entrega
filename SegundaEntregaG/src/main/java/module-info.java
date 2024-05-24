@@ -11,6 +11,7 @@ module org.eqcatorce.segundaentregag {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires java.desktop;
+    requires jar.java.cup;
 
     opens org.eqcatorce.segundaentregag to javafx.fxml;
     exports org.eqcatorce.segundaentregag;

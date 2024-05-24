@@ -9,5 +9,9 @@ public class MainEjemplo {
         bnfr.setArchivo("src/main/java/org/eqcatorce/segundaentregag/programas/fuente.txt");
         ArrayList<String> out = bnfr.task();
         for (String s : out) System.out.println(s);
+
+        for (int i = 0; i < 1024; i++){
+            System.out.println(i + " = " + (char) i);
+        }
     }
 }

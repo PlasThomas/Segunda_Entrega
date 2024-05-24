@@ -41,10 +41,10 @@ public class ASDP {
             reducir('S');
             A();
         }else{
-            errores.push("caracter invalido");
+            errores.push("Caracter no esperado");
         }
         if(simbolos.peek() == ';' && entrada.peek() == ';' ) {
-            salida.add("fin de cadena");
+            salida.add("Fin de cadena");
             entrada.poll();
             simbolos.pop();
         }
@@ -55,7 +55,7 @@ public class ASDP {
             reducir('A');
             B();
         }else{
-            errores.push("caracter invalido");
+            errores.push("Caracter no esperado");
         }
     }
     private void B(){
@@ -63,7 +63,7 @@ public class ASDP {
         if (entrada.peek() == 'b'){
             reducir('B');
         }else{
-            errores.push("caracter invalido");
+            errores.push("Caracter no esperado");
         }
     }
     private void C(){
@@ -71,7 +71,7 @@ public class ASDP {
         if (entrada.peek() == 'c' || entrada.peek() == 'd'){
             reducir('C');
         }else{
-            errores.push("caracter invalido");
+            errores.push("Caracter no esperado");
         }
     }
     private void consumir(){
@@ -105,9 +105,9 @@ public class ASDP {
                     if(entrada.peek() == 'd')
                         consumir();
                     else
-                        errores.push("caracter invalido");
+                        errores.push("Caracter no esperado");
                 }else
-                    errores.push("caracter invalido");
+                    errores.push("Caracter no esperado");
                 break;
             case 'C':
                 if (entrada.peek() == 'c'){
