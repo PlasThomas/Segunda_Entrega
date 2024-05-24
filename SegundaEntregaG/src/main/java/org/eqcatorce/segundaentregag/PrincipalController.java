@@ -115,9 +115,6 @@ public class PrincipalController {
 
 
     private void setTableView(ArrayList<String> piller){
-        // Crear la columna "Token"
-        TableColumn<Item, String> tokenColumn = new TableColumn<>("Token");
-        tokenColumn.setCellValueFactory(cellData -> cellData.getValue().token);
 
         // Crear la columna "Expresión"
         TableColumn<Item, String> expresionColumn = new TableColumn<>("Expresión");
@@ -129,15 +126,19 @@ public class PrincipalController {
 
         // Añadir las columnas a la tabla
         tableView.getColumns().clear();
-        tableView.getColumns().add(tokenColumn);
         tableView.getColumns().add(expresionColumn);
         tableView.getColumns().add(estadoColumn);
 
         tableView.getItems().clear();
         for (String expresion : piller) {
-            String token = ""; // Lógica para obtener el token
-            String estado = ""; // Lógica para determinar si es aceptado o no
-            tableView.getItems().add(new Item(token, expresion, estado));
+            String estado = "";
+            if (expresion.equals("Cadena invalida") || expresion.equals("Caracter no esperado") || expresion.equals("Token esperado: ';'")){
+                estado = expresion;
+                expresion = "-";
+            }
+            else estado = "aceptado";
+
+            tableView.getItems().add(new Item("", expresion, estado));
         }
     }
 }
